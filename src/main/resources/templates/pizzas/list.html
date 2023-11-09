@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="/fragments/resources :: headResources('Pizza List')"></head>
+<body class="bg-dark">
+<nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
+<div class="container border-light text-light" th:if="${pizzaList.size() > 0}">
+    <h1>Pizza List</h1>
+    <hr>
+    <table class="table table-dark border rounded-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each ="pizza : ${pizzaList}" th:object="${pizza}">
+                <td th:text ="*{name}"></td>
+                <td><img th:src="*{image}" alt="" class="d-block w-25 h-25"></td>
+                <td th:text ="*{price}"></td>
+                <td th:text ="*{description}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:unless="${pizzaList.size() > 0}">No results</div>
+</div>
+</body>
+</html>
