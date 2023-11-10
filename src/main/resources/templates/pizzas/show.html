@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="/fragments/resources :: headResources('Pizza Details')"></head>
+<body class="bg-dark">
+<nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
+    <div class="container border-light text-light mt-3" >
+        <div th:object="${pizza}">
+            <h1 th:text ="*{name}">>Book Details</h1>
+            <img th:src="*{image}" alt="" class="d-block w-50 h-50 rounded-4">
+            <hr>
+            <dl>
+                <dt>Price</dt>
+                <dd th:text ="*{price}"></dd>
+                <dt>Description</dt>
+                <dd th:text ="*{description}"></dd>
+                <dt>Added to catalog</dt>
+                <dd th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd')}"></dd>
+            </dl>
+            <a th:href="@{/pizzas}" class="btn btn-secondary">Back to List</a>
+        </div>
+
+    </div>
+</body>
+</html>

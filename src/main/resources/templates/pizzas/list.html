@@ -3,24 +3,39 @@
 <head th:insert="/fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
 <nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
-<div class="container border-light text-light" th:if="${pizzaList.size() > 0}">
-    <h1>Pizza List</h1>
+<div class="container border-light text-light mt-3" th:if="${pizzaList.size() > 0}">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <h1>Pizza List</h1>
+            <form th:action="@{/pizzas}" method="GET">
+                <div class="input-group">
+                    <input
+                            type="text"
+                            placeholder="Search by name"
+                            class="form-control" name="search"
+                            th:value="${param.search}"
+                    >
+                    <button class="btn btn-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
     <hr>
-    <table class="table table-dark border rounded-3">
+    <table class="border-bottom border-secondary table table-dark table-striped">
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Image</th>
                 <th>Price</th>
                 <th>Description</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each ="pizza : ${pizzaList}" th:object="${pizza}">
                 <td th:text ="*{name}"></td>
-                <td><img th:src="*{image}" alt="" class="d-block w-25 h-25"></td>
                 <td th:text ="*{price}"></td>
                 <td th:text ="*{description}"></td>
+                <td>
+                   <a th:href="@{pizzas/show/{id}(id=*{id})}"><i class="fa-solid fa-pizza-slice"></i></a></td>
             </tr>
         </tbody>
     </table>
