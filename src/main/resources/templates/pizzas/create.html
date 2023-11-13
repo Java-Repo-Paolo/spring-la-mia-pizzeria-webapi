@@ -14,20 +14,29 @@
             class="row gy-2"
     >
 
-        <div class="col-6"
-             th:insert="fragments/components :: formField('text', 'Name', 'name')">
-        </div>
-
-        <div class="col-6"
-             th:insert="fragments/components :: formField('text', 'Description', 'description')">
-        </div>
-
         <div class="col-10"
-             th:insert="fragments/components :: formField('text', 'Image', 'image')">
+             th:insert="fragments/components :: formField('text', 'Name', 'name')">
         </div>
 
         <div class="col-2"
              th:insert="fragments/components :: formField('number', 'Price', 'price')">
+        </div>
+
+        <div class="col-12"
+             th:insert="fragments/components :: formField('text', 'Image', 'image')">
+        </div>
+
+        <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" rows="5" th:field="*{description}"
+                    th:errorClass="is-invalid"
+            >
+            </textarea>
+            <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                <ul class="list-group-item disabled ms-2">
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}" class="list-group-item disabled"></li>
+                </ul>
+            </div>
         </div>
 
         <div class="col-12">

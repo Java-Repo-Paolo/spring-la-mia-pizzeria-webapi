@@ -2,6 +2,7 @@ package com.experis.course.springlamiapizzeriacrud.controller;
 
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -53,10 +54,11 @@ public class PizzaController {
     }
 
     @PostMapping("/create")
-    public String store( Pizza formPizza){
-        /*if(bindingResult.hasErrors()){
-            return "books/create";
-        }*/
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza,
+        BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "pizzas/create";
+        }
         formPizza.setCreatedAt(LocalDateTime.now());
         Pizza savedPizza = pizzaRepository.save(formPizza);
         return "redirect:/pizzas";

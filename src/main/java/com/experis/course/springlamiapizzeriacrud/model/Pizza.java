@@ -1,6 +1,7 @@
 package com.experis.course.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
 
@@ -11,11 +12,24 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank(message = "Name must not be blank")
+    @Size(max = 255, message = "Length must be less than 255")
     private String name;
+
+    @NotBlank(message = "Description must not be blank")
+    @Size(max = 1255, message = "Length must be less than 1255")
     @Column(length = 1255)
     private String description;
+
+    @NotBlank(message = "Image must not be blank")
+    @Size(max = 2500, message = "Length must be less than 2500")
+    @Column(length = 2500)
     private String image;
+
+    @DecimalMin(value = "0.01", message = "Price must not be 0")
     private double price;
+
     private LocalDateTime createdAt;
 
     public Integer getId() {
