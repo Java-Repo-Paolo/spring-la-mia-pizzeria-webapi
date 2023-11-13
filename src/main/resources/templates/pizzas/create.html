@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="/fragments/resources :: headResources('Pizza Create')"></head>
+<body class="bg-dark">
+<nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
+<div class="container border-light text-light mt-3">
+    <h1>Create a new pizza</h1>
+    <hr>
+    <form
+            id="pizza-create"
+            method="POST"
+            th:action="@{/pizzas/create}"
+            th:object="${pizza}"
+            class="row gy-2"
+    >
+
+        <div class="col-6"
+             th:insert="fragments/components :: formField('text', 'Name', 'name')">
+        </div>
+
+        <div class="col-6"
+             th:insert="fragments/components :: formField('text', 'Description', 'description')">
+        </div>
+
+        <div class="col-10"
+             th:insert="fragments/components :: formField('text', 'Image', 'image')">
+        </div>
+
+        <div class="col-2"
+             th:insert="fragments/components :: formField('number', 'Price', 'price')">
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-secondary" type="submit">Save</button>
+            <a th:href="@{/pizzas}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
