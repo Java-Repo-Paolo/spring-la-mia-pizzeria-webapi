@@ -80,21 +80,21 @@ public class PizzaController {
 
     @PostMapping("/edit/{id}")
     public String doEdit (@PathVariable Integer id,
-                          @Valid @ModelAttribute("book") Pizza formPizza,
+                          @Valid @ModelAttribute("pizza") Pizza formPizza,
                           BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return "/books/form";
+            return "/pizzas/edit";
         }else{
             Pizza pizzaToEdit = pizzaRepository.findById(id)
                     .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-            formPizza.setName(formPizza.getName());
-            formPizza.setPrice(formPizza.getPrice());
-            formPizza.setImage(formPizza.getImage());
-            formPizza.setDescription(formPizza.getDescription());
+            pizzaToEdit.setName(formPizza.getName());
+            pizzaToEdit.setPrice(formPizza.getPrice());
+            pizzaToEdit.setImage(formPizza.getImage());
+            pizzaToEdit.setDescription(formPizza.getDescription());
 
             Pizza savedPizza = pizzaRepository.save(pizzaToEdit);
-            return "redirect:/books/show/" + savedPizza.getId();
+            return "redirect:/pizzas/show/" + savedPizza.getId();
         }
     }
 

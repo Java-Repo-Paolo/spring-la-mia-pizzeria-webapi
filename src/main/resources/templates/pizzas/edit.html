@@ -7,9 +7,9 @@
     <h1>Edit pizza</h1>
     <hr>
     <form
-            id="pizza-create"
+            id="edit-pizza"
             method="POST"
-            th:action="@{/pizzas/edit}"
+            th:action="@{/pizzas/edit/{id}(id=${pizza.id})}"
             th:object="${pizza}"
             class="row gy-2"
     >
