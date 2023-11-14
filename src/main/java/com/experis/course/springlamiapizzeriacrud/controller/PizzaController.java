@@ -50,7 +50,7 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("pizza", new Pizza());
-        return "pizzas/create";
+        return "pizzas/form";
 
     }
 
@@ -58,7 +58,7 @@ public class PizzaController {
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza,
         BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "pizzas/create";
+            return "pizzas/form";
         }
         formPizza.setCreatedAt(LocalDateTime.now());
         Pizza savedPizza = pizzaRepository.save(formPizza);
@@ -71,7 +71,7 @@ public class PizzaController {
         // Verifico se il risultato è presente
         if (result.isPresent()) {
             model.addAttribute("pizza", result.get());
-            return "pizzas/edit";
+            return "pizzas/form";
         } else {
             // se non ho trovato la pizza sollevo un'eccezione
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
@@ -83,7 +83,7 @@ public class PizzaController {
                           @Valid @ModelAttribute("pizza") Pizza formPizza,
                           BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return "/pizzas/edit";
+            return "/pizzas/form";
         }else{
             Pizza pizzaToEdit = pizzaRepository.findById(id)
                     .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
