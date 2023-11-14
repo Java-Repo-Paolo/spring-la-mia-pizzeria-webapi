@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,6 +62,53 @@ public class PizzaController {
         }
         formPizza.setCreatedAt(LocalDateTime.now());
         Pizza savedPizza = pizzaRepository.save(formPizza);
+        return "redirect:/pizzas";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model){
+        Optional<Pizza> result = pizzaRepository.findById(id);
+        // Verifico se il risultato è presente
+        if (result.isPresent()) {
+            model.addAttribute("pizza", result.get());
+            return "pizzas/edit";
+        } else {
+            // se non ho trovato la pizza sollevo un'eccezione
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit (@PathVariable Integer id,
+                          @Valid @ModelAttribute("book") Pizza formPizza,
+                          BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "/books/form";
+        }else{
+            Pizza pizzaToEdit = pizzaRepository.findById(id)
+                    .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+            formPizza.setName(formPizza.getName());
+            formPizza.setPrice(formPizza.getPrice());
+            formPizza.setImage(formPizza.getImage());
+            formPizza.setDescription(formPizza.getDescription());
+
+            Pizza savedPizza = pizzaRepository.save(pizzaToEdit);
+            return "redirect:/books/show/" + savedPizza.getId();
+        }
+    }
+
+    @PostMapping("delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes){
+        Pizza pizzaToDelete = pizzaRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        pizzaRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute(
+                "message",
+                "Pizza "
+                        + pizzaToDelete.getName()
+                        + " deleted!"
+        );
         return "redirect:/pizzas";
     }
 }

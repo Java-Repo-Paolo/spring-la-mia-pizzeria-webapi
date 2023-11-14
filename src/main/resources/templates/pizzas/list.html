@@ -37,8 +37,15 @@
                 <td th:text ="*{name}"></td>
                 <td th:text ="*{price}"></td>
                 <td th:text ="*{description}"></td>
-                <td>
-                   <a th:href="@{pizzas/show/{id}(id=*{id})}"><i class="fa-solid fa-pizza-slice"></i></a></td>
+                <td class="d-flex align-items-center">
+                    <button class="btn btn-primary mx-1"><a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light"><i class="fa-solid fa-pizza-slice"></i></a></button>
+                    <button class="btn btn-primary mx-1"><a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light"><i class="fa-solid fa-pen-to-square"></i></a></button>
+                    <form method="POST" th:action="@{pizzas/delete/{id}(id=*{id})}">
+                        <button type="submit" class="btn btn-primary mx-1"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                </td>
+
+
             </tr>
         </tbody>
     </table>
