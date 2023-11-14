@@ -20,6 +20,11 @@
             </form>
         </div>
     <hr>
+    <!-- message da redirectAttributes -->
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="my-3">
         <a th:href="@{/pizzas/create}" class="btn btn-secondary">Add new pizza</a>
     </div>
@@ -33,16 +38,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each ="pizza : ${pizzaList}" th:object="${pizza}">
+            <tr th:each ="pizza : ${pizzaList}" th:object="${pizza}" class="m-0">
                 <td th:text ="*{name}"></td>
                 <td th:text ="*{price}"></td>
                 <td th:text ="*{description}"></td>
-                <td class="d-flex align-items-center">
-                    <button class="btn btn-primary mx-1"><a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light"><i class="fa-solid fa-pizza-slice"></i></a></button>
-                    <button class="btn btn-primary mx-1"><a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                    <form method="POST" th:action="@{pizzas/delete/{id}(id=*{id})}">
-                        <button type="submit" class="btn btn-primary mx-1"><i class="fa-solid fa-trash"></i></button>
-                    </form>
+                <td >
+                    <div class=" d-flex align-items-center">
+                        <button class="btn btn-secondary mx-1">
+                            <a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light">
+                                <i class="fa-solid fa-pizza-slice">
+                                </i>
+                            </a>
+                        </button>
+                        <button class="btn btn-secondary mx-1">
+                            <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light">
+                                <i class="fa-solid fa-pen-to-square">
+                                </i>
+                            </a>
+                        </button>
+                        <form method="POST" th:action="@{pizzas/delete/{id}(id=*{id})}"
+                              onsubmit="return confirm('Are you sure?')"
+                        >
+                             <button type="submit" class="btn btn-secondary mx-1">
+                                 <i class="fa-solid fa-trash">
+                                 </i>
+                             </button>
+                        </form>
+                    </div>
                 </td>
 
 
