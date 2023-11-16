@@ -34,6 +34,7 @@
                 <th>Title</th>
                 <th>Start date</th>
                 <th>Finish date</th>
+                <th>Actions</th>
 
             </tr>
             </thead>
@@ -42,13 +43,13 @@
                 <td th:text="*{title}"></td>
                 <td th:text="*{startDate}"></td>
                 <td th:text="*{finishDate}"></td>
-                <!--<td>
+                <td>
                     <a
-                            class="btn btn-primary"
-                            th:href="@{/borrowings/edit/{id}(id=*{id})}" title="edit">
+                        class="btn btn-primary"
+                        th:href="@{/discounts/edit/{id}(id=*{id})}" title="edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                </td>-->
+                </td>
             </tr>
             </tbody>
         </table>

@@ -7,12 +7,16 @@ import com.experis.course.springlamiapizzeriacrud.repository.DiscountRepository;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/discounts")
@@ -29,8 +33,12 @@ public class DiscountController {
         Pizza pizza = pizzaRepository.
                 findById(pizzaId)
                 .orElseThrow(() -> new PizzaNotFoundException("Pizza not found"));
-        // Crea un nuovo sconto e collega l'istanza di pizza ad esso
+        // Crea un nuovo sconto e collega l'istanza di pizza
         Discount discount = new Discount();
+
+        discount.setStartDate(LocalDate.now());
+        discount.setFinishDate(LocalDate.now().plusMonths(5));
+
         discount.setPizza(pizza);
 
         model.addAttribute("discount", discount);
@@ -46,5 +54,37 @@ public class DiscountController {
         }
         Discount savedDiscount = discountRepository.save(formDiscount);
         return "redirect:/pizzas/show/"  + formDiscount.getPizza().getId();
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model){
+        Optional<Discount> result = discountRepository.findById(id);
+        // Verifico se il risultato è presente
+        if (result.isPresent()) {
+            model.addAttribute("discount", result.get());
+            return "discounts/form";
+        } else {
+            // se non l'ho trovato sollevo un'eccezione
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "discount with id " + id + " not found");
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit (@PathVariable Integer id,
+                          @Valid @ModelAttribute("discount")Discount formDiscount,
+                          BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "/discounts/form";
+        }else{
+           Discount discountToEdit = discountRepository.findById(id)
+                    .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+           discountToEdit.setTitle(formDiscount.getTitle());
+           discountToEdit.setStartDate(formDiscount.getStartDate());
+           discountToEdit.setFinishDate(formDiscount.getFinishDate());
+
+           Discount savedDiscount = discountRepository.save(discountToEdit);
+            return "redirect:/pizzas/show/" + savedDiscount.getId();
+        }
     }
 }
