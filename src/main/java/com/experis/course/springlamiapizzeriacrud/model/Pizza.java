@@ -36,6 +36,9 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza")
     private List<Discount> discounts = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Ingredient> ingredients;
+
     private LocalDateTime createdAt;
 
     public Integer getId() {
