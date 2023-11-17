@@ -9,6 +9,11 @@
             <h1 th:text ="*{name}">>Book Details</h1>
             <img th:src="*{image}" alt="" class="d-block w-50 h-50 rounded-4">
             <hr>
+            <!-- message da redirectAttributes -->
+            <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+                <span th:text="${message}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <dl>
                 <dt>Price</dt>
                 <dd th:text ="*{price}"></dd>
@@ -49,6 +54,14 @@
                         th:href="@{/discounts/edit/{id}(id=*{id})}" title="edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
+                    <form method="POST" th:action="@{/discounts/delete/{id}(id=*{id})}"
+                          onsubmit="return confirm('Are you sure?')"
+                    >
+                        <button type="submit" class="btn btn-danger mx-1">
+                            <i class="fa-solid fa-trash">
+                            </i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             </tbody>
