@@ -7,7 +7,7 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
             <h1>Ingredient List</h1>
-           <!-- <form th:action="@{/pizzas}" method="GET">
+           <!--<form th:action="@{/categories}" method="GET">
                 <div class="input-group">
                     <input
                             type="text"
@@ -19,6 +19,19 @@
                 </div>
             </form>-->
         </div>
+        <section>
+            <form
+                    id="ingredient-form"
+                    th:action="@{/ingredients}"
+                    method="POST"
+                    th:object="${ingredientObj}"
+            >
+                <div class="mb-3"
+                     th:insert="fragments/components :: formField('text', 'Ingredient name', 'name')">
+                </div>
+                <button class="btn btn-primary" type="submit">Add ingredient</button>
+            </form>
+        </section>
         <hr>
         <!-- message da redirectAttributes -->
         <!--<div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
@@ -36,35 +49,35 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each ="ingredient : ${ingredientList}" th:object="${ingredient}" class="m-0">
-                <td th:text ="*{name}"></td>
-                <td >
-                    <div class=" d-flex align-items-center">
-                        <!--<button class="btn btn-info mx-1">
-                            <a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light">
-                                <i class="fa-solid fa-pizza-slice">
-                                </i>
-                            </a>
-                        </button>-->
-                        <!--<button class="btn btn-primary mx-1">
-                            <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light">
-                                <i class="fa-solid fa-pen-to-square">
-                                </i>
-                            </a>
-                        </button>-->
-                        <!--<form method="POST" th:action="@{pizzas/delete/{id}(id=*{id})}"
-                              onsubmit="return confirm('Are you sure?')"
-                        >
-                            <button type="submit" class="btn btn-danger mx-1">
-                                <i class="fa-solid fa-trash">
-                                </i>
-                            </button>
-                        </form>-->
-                    </div>
-                </td>
+                <tr th:each ="ingredient : ${ingredientList}" th:object="${ingredient}" class="m-0">
+                    <td th:text ="*{name}"></td>
+                    <td>
+                        <div class=" d-flex align-items-center">
+                            <!--<button class="btn btn-info mx-1">
+                                <a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light">
+                                    <i class="fa-solid fa-pizza-slice">
+                                    </i>
+                                </a>
+                            </button>-->
+                            <!--<button class="btn btn-primary mx-1">
+                                <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light">
+                                    <i class="fa-solid fa-pen-to-square">
+                                    </i>
+                                </a>
+                            </button>-->
+                            <form method="POST" th:action="@{ingredients/delete/{id}(id=*{id})}"
+                                  onsubmit="return confirm('Are you sure?')"
+                            >
+                                <button type="submit" class="btn btn-danger mx-1">
+                                    <i class="fa-solid fa-trash">
+                                    </i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
 
 
-            </tr>
+                </tr>
             </tbody>
         </table>
         <div th:unless="${ingredientList.size() > 0}">No results</div>

@@ -44,26 +44,26 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="discount : *{discounts}" th:object="${discount}">
-                <td th:text="*{title}"></td>
-                <td th:text="*{startDate}"></td>
-                <td th:text="*{finishDate}"></td>
-                <td>
-                    <a
-                        class="btn btn-primary"
-                        th:href="@{/discounts/edit/{id}(id=*{id})}" title="edit">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <form method="POST" th:action="@{/discounts/delete/{id}(id=*{id})}"
-                          onsubmit="return confirm('Are you sure?')"
-                    >
-                        <button type="submit" class="btn btn-danger mx-1">
-                            <i class="fa-solid fa-trash">
-                            </i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
+                <tr th:each="discount : *{discounts}" th:object="${discount}">
+                    <td th:text="*{title}"></td>
+                    <td th:text="*{startDate}"></td>
+                    <td th:text="*{finishDate}"></td>
+                    <td>
+                        <a
+                            class="btn btn-primary"
+                            th:href="@{/discounts/edit/{id}(id=*{id})}" title="edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <form method="POST" th:action="@{/discounts/delete/{id}(id=*{id})}"
+                              onsubmit="return confirm('Are you sure?')"
+                        >
+                            <button type="submit" class="btn btn-danger mx-1">
+                                <i class="fa-solid fa-trash">
+                                </i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <div th:if="*{discounts.size() == 0}" class="alert alert-info">The list is empty</div>

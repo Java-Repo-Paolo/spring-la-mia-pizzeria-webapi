@@ -3,12 +3,17 @@ package com.experis.course.springlamiapizzeriacrud.controller;
 import com.experis.course.springlamiapizzeriacrud.model.Ingredient;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.IngredientRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -25,6 +30,46 @@ public class IngredientController {
         ingredientList = ingredientRepository.findByOrderByName();
         model.addAttribute("ingredientList", ingredientList);
 
+        model.addAttribute("ingredientObj", new Ingredient());
+
        return"ingredients/list";
+    }
+
+
+    @PostMapping
+    public String create(@Valid @ModelAttribute("ingredientObj") Ingredient formIngredient,
+                         BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            return "ingredients/list";
+        }
+        formIngredient.setName(formIngredient.getName());
+        Ingredient savedIngredient = ingredientRepository.save(formIngredient);
+        return "redirect:/ingredients";
+    }
+
+
+    /*public Category save(Category category) throws CategoryNameUniqueException {
+        // verifico che questo nome non esista già
+        if (categoryRepository.existsByName(category.getName())) {
+            throw new CategoryNameUniqueException(category.getName());
+        }
+        // trasformo il nome in lowercase
+        category.setName(category.getName().toLowerCase());
+        // salvo su database
+        return categoryRepository.save(category);
+    }*/
+
+    @PostMapping("delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes){
+      Ingredient ingredientToDelete = ingredientRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        ingredientRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute(
+
+                "Ingredient "
+                        + ingredientToDelete.getName()
+                        + " deleted!"
+        );
+        return "redirect:/ingredients";
     }
 }
