@@ -25,7 +25,24 @@
         <div class="col-12"
              th:insert="fragments/components :: formField('text', 'Image', 'image')">
         </div>
-
+        <div class="col">
+            <!-- ingredients -->
+            <h3>Ingredients</h3>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-3" th:each="ing : ${ingredientList}">
+                        <input
+                                class="from-check-input"
+                                type="checkbox"
+                                th:value="${ing.id}"
+                                th:id="|ing_${ing.id}|"
+                                th:field="*{ingredients}">
+                        <label class="form-check-label" th:for="|ing_${ing.id}|" th:text="${ing.name}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-12">
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" rows="5" th:field="*{description}"
@@ -38,6 +55,7 @@
                 </ul>
             </div>
         </div>
+
 
         <div class="col-12">
             <button class="btn btn-secondary" type="submit">Save</button>
