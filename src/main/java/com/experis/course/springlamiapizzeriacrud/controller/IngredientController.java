@@ -1,5 +1,6 @@
 package com.experis.course.springlamiapizzeriacrud.controller;
 
+import com.experis.course.springlamiapizzeriacrud.exceptions.IngredientNameUniqueException;
 import com.experis.course.springlamiapizzeriacrud.model.Ingredient;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.IngredientRepository;
@@ -38,11 +39,17 @@ public class IngredientController {
 
     @PostMapping
     public String create(@Valid @ModelAttribute("ingredientObj") Ingredient formIngredient,
-                         BindingResult bindingResult, Model model){
+                         BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model){
         if(bindingResult.hasErrors()){
             return "ingredients/list";
         }
-        formIngredient.setName(formIngredient.getName());
+        String ingredientName = formIngredient.getName();
+        if (ingredientRepository.existsByName(ingredientName)) {
+            // Aggiungi un messaggio di errore agli attributi flash
+            redirectAttributes.addFlashAttribute("errorMessage", "Ingredient with name '" + ingredientName + "' already exists.");
+            return "redirect:/ingredients";
+        }
+        formIngredient.setName(ingredientName);
         Ingredient savedIngredient = ingredientRepository.save(formIngredient);
         return "redirect:/ingredients";
     }
@@ -65,7 +72,7 @@ public class IngredientController {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         ingredientRepository.deleteById(id);
         redirectAttributes.addFlashAttribute(
-
+                "message",
                 "Ingredient "
                         + ingredientToDelete.getName()
                         + " deleted!"
