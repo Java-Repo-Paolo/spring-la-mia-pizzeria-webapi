@@ -20,7 +20,9 @@ public class Discount {
     @Size(max = 255, message = "Length must be less than 255")
     private String title;
 
+    @NotNull
     private LocalDate startDate;
+    @NotNull
     private LocalDate finishDate;
 
     //Relazione
