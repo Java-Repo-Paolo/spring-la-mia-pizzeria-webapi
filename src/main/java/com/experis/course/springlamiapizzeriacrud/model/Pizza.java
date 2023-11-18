@@ -33,7 +33,7 @@ public class Pizza {
     private double price;
 
     //Relazione
-    @OneToMany(mappedBy = "pizza")
+    @OneToMany(mappedBy = "pizza", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Discount> discounts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
