@@ -56,8 +56,7 @@ public class PizzaController {
     public String create(Model model){
         model.addAttribute("pizza", new Pizza());
 
-        List<Ingredient> ingredientList;
-        ingredientList = ingredientRepository.findByOrderByName();
+        List<Ingredient> ingredientList = ingredientRepository.findByOrderByName();
         model.addAttribute("ingredientList", ingredientList);
         return "pizzas/form";
 
@@ -68,8 +67,7 @@ public class PizzaController {
         BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
 
-            List<Ingredient> ingredientList;
-            ingredientList = ingredientRepository.findByOrderByName();
+            List<Ingredient> ingredientList = ingredientRepository.findByOrderByName();
             model.addAttribute("ingredientList", ingredientList);
 
             return "pizzas/form";
@@ -86,8 +84,7 @@ public class PizzaController {
         if (result.isPresent()) {
             model.addAttribute("pizza", result.get());
 
-            List<Ingredient> ingredientList;
-            ingredientList = ingredientRepository.findByOrderByName();
+            List<Ingredient> ingredientList = ingredientRepository.findByOrderByName();
             model.addAttribute("ingredientList", ingredientList);
 
             return "pizzas/form";
@@ -102,8 +99,7 @@ public class PizzaController {
                           @Valid @ModelAttribute("pizza") Pizza formPizza,
                           BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            List<Ingredient> ingredientList;
-            ingredientList = ingredientRepository.findByOrderByName();
+            List<Ingredient> ingredientList = ingredientRepository.findByOrderByName();
             model.addAttribute("ingredientList", ingredientList);
 
             return "/pizzas/form";
@@ -115,6 +111,7 @@ public class PizzaController {
             pizzaToEdit.setPrice(formPizza.getPrice());
             pizzaToEdit.setImage(formPizza.getImage());
             pizzaToEdit.setDescription(formPizza.getDescription());
+            pizzaToEdit.setIngredients(formPizza.getIngredients());
 
             Pizza savedPizza = pizzaRepository.save(pizzaToEdit);
             return "redirect:/pizzas/show/" + savedPizza.getId();
