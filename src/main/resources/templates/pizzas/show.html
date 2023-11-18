@@ -23,6 +23,13 @@
                     <dd th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd')}"></dd>
                 </dl>
             </div>
+            <div class="col-4">
+                <h3>Ingredients</h3>
+                <ul th:if="*{ingredients.size() > 0}">
+                    <li th:each="ingredientObj : *{ingredients}" th:text="${ingredientObj.name}"></li>
+                </ul>
+                <div th:unless="*{ingredients.size() > 0}" class="alert alert-info">The list is empty</div>
+            </div>
         </section>
         <section>
             <h2 class="mt-3">Discounts
@@ -42,7 +49,6 @@
                     <th>Start date</th>
                     <th>Finish date</th>
                     <th>Actions</th>
-
                 </tr>
                 </thead>
                 <tbody>
