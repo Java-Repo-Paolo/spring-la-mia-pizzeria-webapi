@@ -1,6 +1,8 @@
 package com.experis.course.springlamiapizzeriacrud.controller;
 
+import com.experis.course.springlamiapizzeriacrud.model.Ingredient;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
+import com.experis.course.springlamiapizzeriacrud.repository.IngredientRepository;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     @GetMapping
     public String index(@RequestParam Optional<String> search, Model model){
@@ -50,14 +55,23 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("pizza", new Pizza());
+
+        List<Ingredient> ingredientList;
+        ingredientList = ingredientRepository.findByOrderByName();
+        model.addAttribute("ingredientList", ingredientList);
         return "pizzas/form";
 
     }
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza,
-        BindingResult bindingResult){
+        BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
+
+            List<Ingredient> ingredientList;
+            ingredientList = ingredientRepository.findByOrderByName();
+            model.addAttribute("ingredientList", ingredientList);
+
             return "pizzas/form";
         }
         formPizza.setCreatedAt(LocalDateTime.now());
@@ -71,6 +85,11 @@ public class PizzaController {
         // Verifico se il risultato è presente
         if (result.isPresent()) {
             model.addAttribute("pizza", result.get());
+
+            List<Ingredient> ingredientList;
+            ingredientList = ingredientRepository.findByOrderByName();
+            model.addAttribute("ingredientList", ingredientList);
+
             return "pizzas/form";
         } else {
             // se non ho trovato la pizza sollevo un'eccezione
@@ -81,8 +100,12 @@ public class PizzaController {
     @PostMapping("/edit/{id}")
     public String doEdit (@PathVariable Integer id,
                           @Valid @ModelAttribute("pizza") Pizza formPizza,
-                          BindingResult bindingResult) {
+                          BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
+            List<Ingredient> ingredientList;
+            ingredientList = ingredientRepository.findByOrderByName();
+            model.addAttribute("ingredientList", ingredientList);
+
             return "/pizzas/form";
         }else{
             Pizza pizzaToEdit = pizzaRepository.findById(id)
