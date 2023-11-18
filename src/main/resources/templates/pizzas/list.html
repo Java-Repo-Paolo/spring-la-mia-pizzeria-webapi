@@ -20,13 +20,13 @@
             </form>
         </div>
     <hr>
+    <div class="my-3">
+        <a th:href="@{/pizzas/create}" class="btn btn-primary">Add new pizza</a>
+    </div>
     <!-- message da redirectAttributes -->
     <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
         <span th:text="${message}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <div class="my-3">
-        <a th:href="@{/pizzas/create}" class="btn btn-primary">Add new pizza</a>
     </div>
     <table class="border-bottom border-secondary table table-dark table-striped">
         <thead>
@@ -46,22 +46,22 @@
                     <div class=" d-flex align-items-center">
                         <button class="btn btn-info mx-1">
                             <a th:href="@{pizzas/show/{id}(id=*{id})}" class="text-light">
-                                <i class="fa-solid fa-pizza-slice">
-                                </i>
+                                <i class="fa-solid fa-pizza-slice"></i>
                             </a>
                         </button>
                         <button class="btn btn-primary mx-1">
                             <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light">
-                                <i class="fa-solid fa-pen-to-square">
-                                </i>
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                         </button>
-                        <form method="POST" th:action="@{pizzas/delete/{id}(id=*{id})}"
-                              onsubmit="return confirm('Are you sure?')"
+                        <form
+                            th:if="${#lists.size(pizza.discounts) == 0}"
+                            method="POST"
+                            th:action="@{pizzas/delete/{id}(id=*{id})}"
+                            onsubmit="return confirm('Are you sure?')"
                         >
                              <button type="submit" class="btn btn-danger mx-1">
-                                 <i class="fa-solid fa-trash">
-                                 </i>
+                                 <i class="fa-solid fa-trash"></i>
                              </button>
                         </form>
                     </div>

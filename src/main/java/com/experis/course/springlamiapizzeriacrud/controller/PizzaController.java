@@ -104,9 +104,8 @@ public class PizzaController {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         pizzaRepository.deleteById(id);
         redirectAttributes.addFlashAttribute(
-
-                "Pizza "
-                        + pizzaToDelete.getName()
+            "message",
+            pizzaToDelete.getName()
                         + " deleted!"
         );
         return "redirect:/pizzas";
