@@ -18,6 +18,7 @@ INSERT INTO pizze (created_at, description, image, name, price) VALUES ('2023-11
 INSERT INTO pizze (created_at, description, image, name, price) VALUES ('2023-11-09 15:07:00', 'Pizza con una selezione mista di frutti di mare.', 'https://wips.plug.it/cips/buonissimo.org/cms/2012/05/pizza-ai-frutti-di-mare.jpg', 'Pizza Frutti di Mare', 13.99);
 INSERT INTO pizze (created_at, description, image, name, price) VALUES ('2023-11-09 15:08:00', 'Una pizza ispirata ai sapori della Sicilia.', 'https://www.strapizza.it/media/k2/items/cache/af2ef6a0e2c9c528b09655df79f3b312_XL.jpg', 'Pizza Siciliana', 11.99);
 INSERT INTO pizze (created_at, description, image, name, price) VALUES ('2023-11-09 15:09:00', 'Pizza con funghi, mozzarella e prelibate erbe aromatiche.', 'https://ohmydish.com/wp-content/uploads/2017/07/Pizza-funghi.jpg', 'Pizza Funghi', 9.49);
+
 INSERT INTO ingredients (name) VALUES ('Mozzarella');
 INSERT INTO ingredients (name) VALUES ('Pomodoro');
 INSERT INTO ingredients (name) VALUES ('Funghi');
@@ -58,3 +59,15 @@ INSERT INTO ingredients (name) VALUES ('Cetriolini');
 INSERT INTO ingredients (name) VALUES ('Pesto Rosso');
 INSERT INTO ingredients (name) VALUES ('Asparagi');
 INSERT INTO ingredients (name) VALUES ('Fungi Porcini');
+
+INSERT INTO roles (id, name) VALUES(1, 'ADMIN');
+INSERT INTO roles (id, name) VALUES(2, 'USER');
+
+INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('paolo.falco@email.com', 'Paolo', 'Falco', '2023-11-20 17:05', '{noop}paolo');
+INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('john@email.com', 'John', 'Doe', '2023-11-20 17:05', '{noop}john');
+INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('jane@email.com', 'Jane', 'Smith', '2023-11-20 17:05','{noop}jane');
+
+INSERT INTO users_roles (user_id, roles_id) VALUES(1, 1);
+INSERT INTO users_roles (user_id, roles_id) VALUES(1, 2);
+INSERT INTO users_roles (user_id, roles_id) VALUES(2, 2);
+INSERT INTO users_roles (user_id, roles_id) VALUES(3, 2);
