@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <body>
 <nav th:fragment="topNavbar(area)" class="navbar navbar-expand-lg bg-grey navbar-dark border-bottom border-light">
 
@@ -14,17 +14,28 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" th:classAppend="${area == 'pizzas' ? 'active' : ''}"
-             th:href="@{/pizzas}">Pizzas</a>
+             th:href="@{/pizzas}">Pizzas
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" th:classAppend="${area == 'ingredients' ? 'active' : ''}"
-             th:href="@{/ingredients}">Ingredients</a>
+             th:href="@{/ingredients}" sec:authorize="hasAuthority('ADMIN')">Ingredients
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" th:classAppend="${area == 'users' ? 'active' : ''}"
-             th:href="@{/users}">Users</a>
+             th:href="@{/users}" sec:authorize="hasAuthority('ADMIN')">Users
+          </a>
         </li>
-      </ul>
+
+      </ul >
+      <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item d-flex justify-content-end">
+          <a class="nav-link" th:classAppend="${area == 'logout' ? 'active' : ''}"
+             th:href="@{/logout}">Logout
+          </a>
+        </li>
+      </div>
     </div>
   </div>
 
