@@ -1,8 +1,11 @@
 package com.experis.course.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,14 +14,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstname;
-    private String lastname;
+
+    @NotBlank
+    private String firstName;
+    @NotBlank
+    private String lastName;
+
+    @NotBlank
+    @Email
     private String email;
-    private LocalDateTime registerAt;
+    private LocalDateTime registeredAt;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -28,20 +37,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -52,12 +61,12 @@ public class User {
         this.email = email;
     }
 
-    public LocalDateTime getRegisterAt() {
-        return registerAt;
+    public LocalDateTime getRegisteredAt() {
+        return registeredAt;
     }
 
-    public void setRegisterAt(LocalDateTime registerAt) {
-        this.registerAt = registerAt;
+    public void setRegisteredAt(LocalDateTime registeredAt) {
+        this.registeredAt = registeredAt;
     }
 
     public String getPassword() {
