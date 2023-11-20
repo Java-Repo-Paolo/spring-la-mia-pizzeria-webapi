@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="/fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
 <nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
@@ -10,17 +10,17 @@
             <form th:action="@{/pizzas}" method="GET">
                 <div class="input-group">
                     <input
-                            type="text"
-                            placeholder="Search by name"
-                            class="form-control" name="search"
-                            th:value="${param.search}"
+                        type="text"
+                        placeholder="Search by name"
+                        class="form-control" name="search"
+                        th:value="${param.search}"
                     >
                     <button class="btn btn-primary" type="submit">Search</button>
                 </div>
             </form>
         </div>
     <hr>
-    <div class="my-3">
+    <div class="my-3" sec:authorize="hasAuthority('ADMIN')">
         <a th:href="@{/pizzas/create}" class="btn btn-primary">Add new pizza</a>
     </div>
     <!-- message da redirectAttributes -->
@@ -49,7 +49,7 @@
                                 <i class="fa-solid fa-pizza-slice"></i>
                             </a>
                         </button>
-                        <button class="btn btn-primary mx-1">
+                        <button class="btn btn-primary mx-1" sec:authorize="hasAuthority('ADMIN')">
                             <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="text-light">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
@@ -59,6 +59,7 @@
                             method="POST"
                             th:action="@{pizzas/delete/{id}(id=*{id})}"
                             onsubmit="return confirm('Are you sure?')"
+                            sec:authorize="hasAuthority('ADMIN')"
                         >
                              <button type="submit" class="btn btn-danger mx-1">
                                  <i class="fa-solid fa-trash"></i>

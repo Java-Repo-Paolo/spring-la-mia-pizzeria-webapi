@@ -4,9 +4,11 @@ import com.experis.course.springlamiapizzeriacrud.model.Ingredient;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.IngredientRepository;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
+import com.experis.course.springlamiapizzeriacrud.security.DatabaseUserDetails;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,11 +31,15 @@ public class PizzaController {
     private IngredientRepository ingredientRepository;
 
     @GetMapping
-    public String index(@RequestParam Optional<String> search, Model model){
+    public String index(@RequestParam Optional<String> search, Model model, Authentication authentication){
         List<Pizza> pizzaList;
+        DatabaseUserDetails user = (DatabaseUserDetails) authentication.getPrincipal();
+        /*System.out.println(user.getUsername());
+        System.out.println(user.getAuthorities());*/
         if (search.isPresent()){
             pizzaList = pizzaRepository.findByNameContainingIgnoreCase(search.get());
         }else {
+
             pizzaList = pizzaRepository.findAll();
         }
         model.addAttribute("pizzaList", pizzaList);
