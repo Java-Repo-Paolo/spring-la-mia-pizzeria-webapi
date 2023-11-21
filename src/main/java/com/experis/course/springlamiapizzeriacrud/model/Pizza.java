@@ -1,5 +1,6 @@
 package com.experis.course.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "pizze")
+@Table(name = "pizzas")
 public class Pizza {
 
     @Id
@@ -34,6 +35,7 @@ public class Pizza {
 
     //Relazione
     @OneToMany(mappedBy = "pizza", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Discount> discounts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
