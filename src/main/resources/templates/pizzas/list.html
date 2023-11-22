@@ -40,7 +40,7 @@
         <tbody>
             <tr th:each ="pizza : ${pizzaList}" th:object="${pizza}" class="m-0">
                 <td th:text ="*{name}"></td>
-                <td th:text ="*{price}"></td>
+                <td th:text="*{price} + ' €'"></td>
                 <td th:text ="*{description}"></td>
                 <td >
                     <div class=" d-flex align-items-center">

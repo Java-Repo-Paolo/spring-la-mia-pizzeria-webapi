@@ -1,28 +1,28 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
-    <!-- componente form field; parametri: tipo di input, label, nome del field -->
-    <th:block th:fragment="formField(type, label, fieldName)">
-        <label th:for="${fieldName}" class="form-label" th:text="${label}"></label>
+    <body>
+        <!-- componente form field; parametri: tipo di input, label, nome del field -->
+        <th:block th:fragment="formField(type, label, fieldName)">
+            <label th:for="${fieldName}" class="form-label" th:text="${label}"></label>
 
-        <!-- th:block - condizione if -->
-        <th:block th:if="${type == 'number'}">
-            <input th:type="${type}" class="form-control" th:id="${fieldName}" th:field="*{__${fieldName}__}" step="any"
-                   th:errorClass="is-invalid"
-            >
+            <!-- th:block - condizione if -->
+            <th:block th:if="${type == 'number'}">
+                <input th:type="${type}" class="form-control" th:id="${fieldName}" th:field="*{__${fieldName}__}" step="any"
+                       th:errorClass="is-invalid"
+                >
+            </th:block>
+
+            <th:block th:if="${type != 'number'}">
+                <input th:type="${type}" class="form-control" th:id="${fieldName}" th:field="*{__${fieldName}__}"
+                       th:errorClass="is-invalid"
+                >
+            </th:block>
+
+            <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
+              <ul class="list-group-item disabled ms-2">
+                  <li th:each="err : ${#fields.errors(fieldName)}" th:text="${err}" class="list-group-item disabled"></li>
+              </ul>
+            </div>
         </th:block>
-
-        <th:block th:if="${type != 'number'}">
-            <input th:type="${type}" class="form-control" th:id="${fieldName}" th:field="*{__${fieldName}__}"
-                   th:errorClass="is-invalid"
-            >
-        </th:block>
-
-        <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
-          <ul class="list-group-item disabled ms-2">
-              <li th:each="err : ${#fields.errors(fieldName)}" th:text="${err}" class="list-group-item disabled"></li>
-          </ul>
-        </div>
-    </th:block>
-</body>
+    </body>
 </html>

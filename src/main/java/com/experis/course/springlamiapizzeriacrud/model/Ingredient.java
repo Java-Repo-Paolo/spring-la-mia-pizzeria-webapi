@@ -12,7 +12,7 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
+    @NotBlank (message = "Name must not be blank")
     @Size(max = 50)
     @Column(nullable = false, unique = true)
     private String name;
